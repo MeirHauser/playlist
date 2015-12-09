@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#container{
+			width: 1250px;
+			height: 700px;
+			background-color: cadetblue;
+		}
+	    h1{
+	    	margin-left: 100px;
+	    	display: inline;
+	    }
+	    h4{
+	    	margin-left: 100px;
+	    }
+		table{
+			border-collapse: collapse;
+			margin-left: 100px;
+			margin-bottom: 20px;
+		}
+		td{
+			border: 1px solid black;
+			padding: 3px;
+		}
+		.wheat{
+			background-color: wheat;
+		}
+		#add_song{
+			margin-left: 100px;
+		}
+		#add{
+			margin-left: 30px;
+		}
+		.count{
+			text-align: center;
+		}
+		.gray{
+			background: lightgray;
+		}
+		.dark_gray{
+			background-color: gray;
+		}
+		.white{
+			background-color: white;
+		}
+		#delete{
+			display: inline;
+			margin-left: 600px;
+		}
+	</style>
+</head>
+<body>
+	<div id = 'container'>
+		<h1>Hi <%= @user.first_name %></h1>
+		<a href= "/sessions" data-method='delete' id = 'delete'><button class = 'wheat'>Log Out</button></a>
+		<h4>All The Songs In Our Hub:</h4>
+			<table>
+				<tr class = 'dark_gray'>
+					<td>Artist</td>
+					<td>Title</td>
+					<td>Times Added</td>
+					<td>Add To Playlist</td>
+				</tr>
+				<% y = 1 %>
+				<% @songs.each do |x| %>
+					<% if y % 2 == 0 %>
+						<tr class = 'gray'>
+					<% else %>
+						<tr class = 'white'>
+					<% end %>
+						<td><%= x.artist %></td>
+						<td><a href = '/songs/<%= x.id %>'><%= x.title %></a></td>
+						<td class = 'count'><%= x.addeds.count %></td>
+						<td>
+							<form action = '/addeds' method = 'post' id = 'add'>
+								<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+								<input type = 'hidden' name = 'song_id' value = <%= x.id %>>
+								<input type = 'submit' value = "Add" class = 'wheat'>
+							</form>
+						</td>
+					</tr>
+					<% y += 1 %>
+				<% end %>
+			</table>
+		<h4>Add A Song</h4>
+		<form action = '/songs' method = 'post' id = 'add_song'>
+			<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+		  	<p>
+			  	<label for = 'title'>Title:</label>
+				<input type='text' name='title'>
+		  	</p>
+		  	<p>
+			  	<label for = 'artist'>Artist:</label>
+				<input type='text' name='artist'>
+		  	</p>
+		  	<input type = 'submit' value = "Add Song" class = 'wheat'>
+		</form>
+		<% if flash[:errors] %>
+			<% flash[:errors].each do |x| %>
+			<p><%= x %></p>
+			<% end %>
+		<% end %>
+	</div>
+</body>
+</html>

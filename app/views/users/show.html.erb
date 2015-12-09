@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#container{
+			width: 1250px;
+			height: 700px;
+			background-color: cadetblue;
+			padding-top: 10px;
+		}
+	    h1{
+	    	margin-left: 100px;
+	    	margin-top: 10px;
+	    }
+	    h4{
+	    	margin-left: 100px;
+	    }
+		table{
+			border-collapse: collapse;
+			margin-left: 100px;
+			margin-bottom: 20px;
+		}
+		td{
+			border: 1px solid black;
+			padding: 3px;
+		}
+		.wheat{
+			background-color: wheat;
+		}
+		#add_song{
+			margin-left: 100px;
+		}
+		#add{
+			margin-left: 30px;
+		}
+		.count{
+			text-align: center;
+		}
+		.gray{
+			background: lightgray;
+		}
+		.dark_gray{
+			background-color: gray;
+		}
+		.white{
+			background-color: white;
+		}
+		#dashboard{
+			display: inline;
+			margin-left: 900px;
+			margin-top: 10px;
+		}
+		#delete{
+			margin-top: 10px;
+			margin-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id = 'container'>
+		<a href="/songs/index" id = 'dashboard'>Dashboard</a>
+		<a href= "/sessions" data-method='delete' id = 'delete'>Log Out</a>
+		<h1><%= @user.first_name %> <%= @user.last_name %>'s Playlist</h1>
+		<table>
+			<tr class = 'dark_gray'>
+				<td>Artist</td>
+				<td>Title</td>
+				<td>Times Added</td>
+			</tr>
+			<% y = 1 %>
+			<% @songs.each do |x| %>
+				<% if y % 2 == 0 %>
+					<tr class = 'gray'>
+				<% else %>
+					<tr class = 'white'>
+				<% end %>
+					<td><%= x.artist %></td>
+					<td><%= x.title %></td>
+					<td><%= x.addeds.where("user_id = ?", @user.id).count %></td>
+				</tr>
+				<% y += 1 %>
+			<% end %>
+		</table>
+	</div>
+</body>
+</html>

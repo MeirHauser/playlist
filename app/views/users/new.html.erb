@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#container{
+			width: 1250px;
+			height: 700px;
+			background-color: cadetblue;
+			padding: 10px;
+		}
+	    h1{
+	    	text-align: center;
+	    	margin-top: 5px;
+	    }
+	    #new_user{
+	    	display: inline-block;
+	    	border: 2px solid black;
+	    	padding: 25px;
+	    	margin-left: 300px;
+	    	margin-top: 50px
+	    }
+	    #log_in{
+	    	display: inline-block;
+	    	border: 2px solid black;
+	    	vertical-align: top;
+	    	padding: 25px;
+	    	margin-left: 100px;
+	    	margin-top: 50px;
+	    }
+		.wheat{
+			background-color: wheat;
+		}
+	</style>
+</head>
+<body>
+	<div id = 'container'>
+		<% if flash[:message] %>
+			<p><%= flash[:message] %></p>
+		<% end %>
+		<div id = 'new_user'>
+			<h1>Create A New User</h1>
+			<form action='/users/' method='post'>
+						<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+					  	<p>
+						  	<label for = 'first_name'>First Name:</label>
+							<input type='text' name='first_name'>
+					  	</p>
+					  	<p>
+						  	<label for = 'last_name'>Last Name:</label>
+							<input type='text' name='last_name'>
+					  	</p>
+					  	<p>
+						  	<label for = 'email'>Email:</label>
+							<input type='text' name='email'>
+					  	</p>
+						  	<label for = 'password'>Password:</label>
+							<input type='password' name='password'>
+					  	</p>
+					  	<input type='submit' value='Submit' class = 'wheat'>
+					</form>
+			<% if flash[:errors] %>
+				<% flash[:errors].each do |x| %>
+				<p><%= x %></p>
+				<% end %>
+			<% end %>
+		</div>
+		<div id = 'log_in'>
+			<h1>Log In</h1>
+			<form action = '/sessions' method = 'post'>
+				<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+				<p>
+					<label for = 'email'>Email:</label>
+					<input id = 'email' type = 'text' name = 'email'>
+			 	</p>
+			 	<p>
+					<label for = 'password'>Password:</label>
+					<input id = 'password' type = 'password' name = 'password'>
+			 	</p>
+			 	<input type = 'submit' value = 'Log In' class = 'wheat'>
+			</form>
+		<% if flash[:error] %>
+			<%= flash[:error] %>
+		<% end %>
+		</div>
+	</div>
+</body>
+</html>
